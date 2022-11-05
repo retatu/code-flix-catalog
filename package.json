@@ -1,0 +1,25 @@
+{
+  "name": "code-flix-catalog",
+  "version": "1.0.0",
+  "description": "Video catalog admin",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/retatu/code-flix-catalog.git"
+  },
+  "author": "Matheus H. Rehbein",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/retatu/code-flix-catalog/issues"
+  },
+  "homepage": "https://github.com/retatu/code-flix-catalog#readme",
+  "devDependencies": {
+    "@types/node": "14.14.31",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
+  }
+}
