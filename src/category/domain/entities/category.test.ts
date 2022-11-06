@@ -1,21 +1,19 @@
 import { omit } from "lodash";
 import { Category, CategoryProperties } from "./category"
-import { validate as uuidValidate, v4 as uuidv4  } from 'uuid'
+import UniqueEntityId from "../../../shared/domain/unique-entity-id.vo";
 
 describe("Category :: Unit Test", () => {
   describe("Constructor", () => {
     test("With all properties", () => {
       const date = new Date();
       const props = { name: 'valid_name', isActive: true, description: 'valid_description', createdAt: date };
-      const id = uuidv4();
-      const category = new Category({ name: 'valid_name', isActive: true, description: 'valid_description', createdAt: date }, id );
+      const category = new Category({ name: 'valid_name', isActive: true, description: 'valid_description', createdAt: date } );
       expect(category.name).toBe("valid_name");
       expect(category.isActive).toBeTruthy();
       expect(category.description).toBe("valid_description");
       expect(category.createdAt).toBe(date);
-      expect(category.id).not.toBeNull();
-      expect(uuidValidate(category.id)).toBeTruthy();
-      expect(category.id).toBe(id);
+      expect(category.uniqueEntityId).not.toBeNull();
+      expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
       expect(category.props).toMatchObject(props);
       expect(category.props).toStrictEqual(props);
     });
@@ -29,19 +27,19 @@ describe("Category :: Unit Test", () => {
       const category = new Category({ name: 'valid_name', isActive: false });
       expect(category.isActive).toBeFalsy();
     });
-    test("With id null, undefined and valid one", () => {
-      type CategoryData = { props: CategoryProperties, id?: string };
+    test("With uniqueEntityId null, undefined and valid one", () => {
+      type CategoryData = { props: CategoryProperties, uniqueEntityId?: UniqueEntityId };
       const dataList: CategoryData[] = [
         { props: { name: 'valid_name', isActive: false } },
-        { props: { name: 'valid_name', isActive: false }, id: null },
-        { props: { name: 'valid_name', isActive: false }, id: undefined },
-        { props: { name: 'valid_name', isActive: false }, id: 'cef09e16-7422-4f5a-9a40-bf93c1ce4803' },
+        { props: { name: 'valid_name', isActive: false }, uniqueEntityId: null },
+        { props: { name: 'valid_name', isActive: false }, uniqueEntityId: undefined },
+        { props: { name: 'valid_name', isActive: false }, uniqueEntityId: new UniqueEntityId() },
       ];
 
       dataList.forEach(element => {
-        const category = new Category(element.props, element.id);
-        expect(category.id).not.toBeNull();
-        expect(uuidValidate(category.id)).toBeTruthy();
+        const category = new Category(element.props, element.uniqueEntityId);
+        expect(category.uniqueEntityId).not.toBeNull();
+        expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
       });
     });
   });
