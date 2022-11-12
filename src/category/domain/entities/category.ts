@@ -27,4 +27,14 @@ export class Category extends Entity<CategoryProperties>{
   private set isActive(value: boolean){
     this.props.isActive = value ?? true;
   }
+  update(name: string, description: string) {
+    this.props.name = name || this.name; // doesn't make sense having name null
+    this.props.description = description;
+  }
+  active() {
+    this.props.isActive = true;
+  }
+  deactive() {
+    this.props.isActive = false;
+  }
 }

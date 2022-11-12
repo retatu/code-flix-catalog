@@ -75,4 +75,38 @@ describe("Category :: Unit Test", () => {
       expect(category.createdAt).toBe(createdAt);
     });
   })
+  describe("Other methods", () => {
+    test("The method activate should change isActive to true", () => {
+      const category = new Category({ name: 'valid_name', isActive: false });
+      expect(category.isActive).toBeFalsy();
+      category.active();
+      expect(category.isActive).toBeTruthy();
+      category.active();
+      expect(category.isActive).toBeTruthy();
+    });
+    test("The method deactivate should change isActive to false", () => {
+      const category = new Category({ name: 'valid_name', isActive: true });
+      expect(category.isActive).toBeTruthy();
+      category.deactive();
+      expect(category.isActive).toBeFalsy();
+      category.deactive();
+      expect(category.isActive).toBeFalsy();
+    });
+    test("The method update should change the name and the description", () => {
+      const arrange = [
+        { name: 'other_name', expectName: 'other_name', description: 'description', expectedDescription: 'description' },
+        { name: 'other_name', expectName: 'other_name', description: null, expectedDescription: null },
+        { name: null, expectName: 'other_name', description: 'description', expectedDescription: 'description' },
+      ]
+      const category = new Category({ name: 'valid_name', isActive: true });
+      expect(category.name).toBe('valid_name');
+      expect(category.description).toBe(null);
+
+      arrange.forEach((obj) => {
+        category.update(obj.name, obj.description)
+        expect(category.name).toBe(obj.expectName);
+        expect(category.description).toBe(obj.expectedDescription);
+      })
+    });
+  })
 })
