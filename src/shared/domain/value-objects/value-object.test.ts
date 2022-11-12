@@ -18,8 +18,6 @@ describe("ValueObject :: Unit Test", () => {
         { received: { prop1: 'value' }, expected: JSON.stringify({ prop1: 'value' }) },
         { received: date, expected: date.toString() },
         { received: 'Fake value', expected: 'Fake value' },
-        { received: null, expected: 'null' },
-        { received: undefined, expected: 'undefined' },
         { received: 5, expected: '5' },
         { received: true, expected: 'true' },
         { received: false, expected: 'false' },
@@ -29,6 +27,17 @@ describe("ValueObject :: Unit Test", () => {
         let vo = new StubValueObject(value.received);
         expect(`${vo}`).toEqual(value.expected);
       })
+    })
+    it('Should be immutable objects', () => {
+      const obj = { prop1: 'PROP1', deep: { prop2: 'PROP2', prop3: new Date() }};
+      const vo = new StubValueObject(obj);
+      expect(() => {
+        vo.value.prop1 = 'erro';
+      }).toThrow("Cannot assign to read only property 'prop1' of object '#<Object>'")
+      expect(() => {
+        vo.value.deep.prop2 = 'erro';
+      }).toThrow("Cannot assign to read only property 'prop2' of object '#<Object>'")
+      expect(vo.value.deep.prop3).toBeInstanceOf(Date)
     })
   });
 });
