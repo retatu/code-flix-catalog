@@ -28,7 +28,7 @@ export class Category extends Entity<CategoryProperties>{
     this.props.isActive = value ?? true;
   }
   update(name: string, description: string) {
-    this.props.name = name || this.name; // doesn't make sense having name null
+    this.props.name = name
     this.props.description = description;
   }
   active() {

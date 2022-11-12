@@ -96,7 +96,7 @@ describe("Category :: Unit Test", () => {
       const arrange = [
         { name: 'other_name', expectName: 'other_name', description: 'description', expectedDescription: 'description' },
         { name: 'other_name', expectName: 'other_name', description: null, expectedDescription: null },
-        { name: null, expectName: 'other_name', description: 'description', expectedDescription: 'description' },
+        { name: 'other_name', expectName: 'other_name', description: 'description', expectedDescription: 'description' },
       ]
       const category = new Category({ name: 'valid_name', isActive: true });
       expect(category.name).toBe('valid_name');
