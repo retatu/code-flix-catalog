@@ -3,11 +3,17 @@ import { Category, CategoryProperties } from "./category"
 import UniqueEntityId from "../../../shared/domain/value-objects/unique-entity-id.vo";
 
 describe("Category :: Unit Test", () => {
+  beforeEach(() => {
+    Category.validate = jest.fn();
+  })
+  afterEach(() => {
+    expect(Category.validate).toHaveBeenCalled();
+  })
   describe("Constructor", () => {
     test("With all properties", () => {
       const date = new Date();
       const props = { name: 'valid_name', isActive: true, description: 'valid_description', createdAt: date };
-      const category = new Category({ name: 'valid_name', isActive: true, description: 'valid_description', createdAt: date } );
+      const category = new Category({ name: 'valid_name', isActive: true, description: 'valid_description', createdAt: date });
       expect(category.name).toBe("valid_name");
       expect(category.isActive).toBeTruthy();
       expect(category.description).toBe("valid_description");
@@ -21,7 +27,7 @@ describe("Category :: Unit Test", () => {
       const category = new Category({ name: 'valid_name' });
       const categoryProps = omit(category.props, 'createdAt');
       expect(category.createdAt).toBeInstanceOf(Date);
-      expect(categoryProps).toStrictEqual( { name: 'valid_name', isActive: true, description: null });
+      expect(categoryProps).toStrictEqual({ name: 'valid_name', isActive: true, description: null });
     });
     test("With isActiva false", () => {
       const category = new Category({ name: 'valid_name', isActive: false });
