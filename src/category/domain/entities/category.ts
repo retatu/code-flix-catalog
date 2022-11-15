@@ -1,3 +1,4 @@
+import { EntityValidationError } from '../../../shared/domain/errors/validation.error';
 import Entity from '../../../shared/domain/entity/entity';
 import UniqueEntityId from '../../../shared/domain/value-objects/unique-entity-id.vo';
 import CategoryValidatorFactory from '../validators/category-validator';
@@ -7,12 +8,12 @@ export type CategoryProperties = {
   isActive?: boolean,
   description?: string,
   createdAt?: Date,
-}
+};
 
 export class Category extends Entity<CategoryProperties>{
   constructor(public readonly props: CategoryProperties, uniqueEntityId?: UniqueEntityId) {
     Category.validate(props);
-    super(props, uniqueEntityId)
+    super(props, uniqueEntityId);
     this.description = this.props.description;
     this.isActive = this.props.isActive;
     this.props.createdAt = this.props.createdAt ?? new Date();
@@ -25,13 +26,16 @@ export class Category extends Entity<CategoryProperties>{
   // }
 
   static validate(props: CategoryProperties) {
-    const validator = CategoryValidatorFactory.create()
-    validator.validate(props);
+    const validator = CategoryValidatorFactory.create();
+    const isValid = validator.validate(props);
+    if (!isValid) {
+      throw new EntityValidationError(validator.errors);
+    }
   }
 
   update(name: string, description: string) {
     Category.validate({ name, description });
-    this.props.name = name
+    this.props.name = name;
     this.props.description = description;
   }
   active() {
@@ -41,10 +45,10 @@ export class Category extends Entity<CategoryProperties>{
     this.props.isActive = false;
   }
 
-  get name() { return this.props.name }
-  get isActive() { return this.props.isActive }
-  get description() { return this.props.description }
-  get createdAt() { return this.props.createdAt }
+  get name() { return this.props.name; }
+  get isActive() { return this.props.isActive; }
+  get description() { return this.props.description; }
+  get createdAt() { return this.props.createdAt; }
 
   private set description(value: string) {
     this.props.description = value ?? null;
